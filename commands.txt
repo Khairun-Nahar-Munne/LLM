@@ -1,0 +1,47 @@
+
+ python3 -m venv env        
+ pip install -r requirements.txt        
+
+ django-admin startproject django_project . 
+  python manage.py startapp properties                
+ docker network ls  
+
+ -------------------------------------------------------------------
+docker-compose up --build       
+docker-compose exec django_cli python manage.py makemigrations        
+docker-compose exec django_cli python manage.py migrate                                                                               
+docker-compose exec ollama bash 
+ollama list                                            
+docker-compose exec ollama ollama pull llama3.2   
+
+docker-compose exec django_cli python manage.py process_hotels         
+
+--------------------------------------------------------------------
+
+
+To remove all things from Docker (including containers, images, volumes, and networks), you can follow these steps:
+
+Stop all running containers:
+
+docker stop $(docker ps -aq)
+
+Remove all containers (stopped or running):
+
+docker rm $(docker ps -aq)
+Remove all images:
+
+docker rmi $(docker images -q)
+
+Remove all volume
+docker volume rm $(docker volume ls -q)
+
+Remove all networks:
+
+
+docker network rm $(docker network ls -q)
+
+Prune all unused Docker objects (this includes containers, images, networks, and volumes that are not in use):
+
+
+docker system prune -a --volumes
+This will remove all Docker containers, images, volumes, and networks from your system. Be cautious, as this action cannot be undone.
