@@ -1,4 +1,4 @@
-LLM_project/                # Main Django project
+LLM/                # Main Django project
         manage.py                  # Django entry point
         django_project/            # Django project settings
             __init__.py

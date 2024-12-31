@@ -9,12 +9,18 @@
  -------------------------------------------------------------------
 docker-compose up --build       
 docker-compose exec django_cli python manage.py makemigrations        
-docker-compose exec django_cli python manage.py migrate                                                                               
+docker-compose exec django_cli python manage.py migrate zero                                                                            
 docker-compose exec ollama bash 
 ollama list                                            
 docker-compose exec ollama ollama pull llama3.2   
 
 docker-compose exec django_cli python manage.py process_hotels         
+docker-compose exec django_cli python3 manage.py showmigrations
+
+# Get all hotels
+hotels = Hotel.objects.all()
+$ docker-compose exec django_cli python manage.py test properties.tests.test_cli
+docker-compose exec django_cli python manage.py createsuperuser
 
 --------------------------------------------------------------------
 
