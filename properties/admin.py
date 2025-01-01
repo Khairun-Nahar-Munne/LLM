@@ -28,11 +28,11 @@ class HotelAdmin(admin.ModelAdmin):
 
 @admin.register(HotelSummary)
 class HotelSummaryAdmin(admin.ModelAdmin):
-    list_display = ('hotel', 'property_id', 'summary')
+    list_display = ('property_id', 'summary')
     search_fields = ('hotel__hotel_name', 'summary')
 
 @admin.register(HotelReview)
 class HotelReviewAdmin(admin.ModelAdmin):
-    list_display = ('hotel', 'property_id', 'rating', 'review')
+    list_display = ('property_id', 'rating', 'review')
     list_filter = ('rating',)
     search_fields = ('hotel__hotel_name', 'review')

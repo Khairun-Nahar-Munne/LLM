@@ -21,8 +21,43 @@ docker-compose exec django_cli python3 manage.py showmigrations
 hotels = Hotel.objects.all()
 $ docker-compose exec django_cli python manage.py test properties.tests.test_cli
 docker-compose exec django_cli python manage.py createsuperuser
+ docker-compose exec django_cli python manage.py migrate properties  zero  
 
 --------------------------------------------------------------------
+
+
+To run the tests using Docker Compose, use these commands:
+
+To run all tests:
+
+bashCopydocker-compose exec django_cli python manage.py test properties.tests
+
+To run specific test files:
+
+bashCopy# Test CLI
+docker-compose exec django_cli python manage.py test properties.tests.test_cli
+
+# Test Models
+docker-compose exec django_cli python manage.py test properties.tests.test_models
+
+# Test Admin
+docker-compose exec django_cli python manage.py test properties.tests.test_admin
+
+To run tests with coverage:
+
+bashCopy# Install coverage first
+docker-compose exec django_cli pip install coverage
+
+# Run tests with coverage
+docker-compose exec django_cli coverage run --source='.' manage.py test properties.tests
+
+# Generate coverage report
+docker-compose exec django_cli coverage report
+
+# Generate HTML coverage report
+docker-compose exec django_cli coverage html
+
+---------------------------------------------------------------------------------------------------------------------------
 
 
 To remove all things from Docker (including containers, images, volumes, and networks), you can follow these steps:
