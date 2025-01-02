@@ -31,38 +31,39 @@ LLM/
 │   ├── migrations/
 │   │   ├── __init__.py
 │   │   ├── 0001_initial.py
-│   │   ├── 0002_partition_accommodation.py
-│   │   └── _003_partition_localize_accommodation.py
+│   │   └──  0002_add_description_to_hotel.py
 │   ├── management/
 │   │   ├── __init__.py
 │   │   └── commands
 |   |       ├── __init__.py
 │   │       └── Process_hotels.py
-│   ├── templates/
-│   │   ├── signup.html
-│   │   └── admin
-│   │       ├── csv_import_form.html
-│   │       └── app
-│   │           └──location
-│   │               └──change_list.html
+│   ├── tests/
+│   │   ├── test_admin.py
+│   │   ├── test_Process_hotels.py
+│   │   ├── test_models.py
+│   │   └── test_runner.py
 │   │
 │   ├── models.py
+│   ├── apps.py
+│   ├── admin.py
+│   └── views.py
+├── manage.py
 ├── requirements.txt
 ├── docker-compose.yml
 ├── Dockerfile
 ├── ollama/
-├── .env
+├── env
 └── README.md
 ```
 
 ## Features
 
-1. **Re-writing Property Titles and Descriptions**: Utilizes an Ollama model to re-write property information and stored the information back in the property table
+1. **Re-writing Property Titles and Descriptions**: Utilizes an Ollama model to re-write property information and stores the information back in the property table
 2. **Generating Summaries**: Summarizes property-related information and stores it to a new table.
 3. **Rating and Reviews**: Generates property ratings and reviews and saves them to a new table.
 4. **PostgreSQL Integration**: All processed data is stored using Django's ORM with PostgreSQL.
 5. **Custom CLI Commands**: CLI-based interaction to execute tasks efficiently.
-6. **Code Coverage**: Ensures 90% test coverage using Django's testing framework.
+6. **Code Coverage**: Ensures 91% test coverage using Django's testing framework.
 
 ## Prerequisites
 
@@ -76,7 +77,7 @@ LLM/
 
 ### Set Up My Scrapy Project
 
-You have to run my scarpy project following the instructions given in this gitub repository. Otherwise, you can not get the scrapped data.
+You have to run my scarpy project following the instructions given in the gitub repository of the scrapy project. Otherwise, you can not get the scrapped data.
 
 The scrapy project github repo link: https://github.com/Khairun-Nahar-Munne/web_crawl.git
 
@@ -88,7 +89,20 @@ You have to keep running the scarpy project to run this Django project.
 1. git clone https://github.com/Khairun-Nahar-Munne/LLM.git
 2. cd LLM
 ```
+### Set Up Virtual Environment
 
+   On Linux/macOS:
+
+    ```bash
+    python3 -m venv env  # or python -m venv env 
+    source env/bin/activate
+    ```
+   On Windows:
+
+    ```bash
+    python3 -m venv env   # or python -m venv venv 
+    env\Scripts\activate
+    ```
 ### Set Up Docker
 
 Ensure Docker is running, then build and start the application:
@@ -117,7 +131,7 @@ docker-compose exec ollama ollama pull llama3.2
 
 ### Generate Property Title, Description, Summaries, Ratings and Reviews
 
-Use the following command to re-write property titles and descriptions using Ollama:
+Use the following command to re-write property titles and descriptions, generates summaries, ratings and reviews using Ollama:
 
 ```bash
 docker-compose exec django_cli python manage.py process_hotels
@@ -151,7 +165,7 @@ Fill up all necessary information and login django admin
 
 ## Database Tables
 
-You cab see the data through both django admin and pgadmin. I gave the instruction how to see database through pgadmin. You can see only the generated data of first 10 hotels/properties. If you want to generate data for all hotels, you have to change the one line code in the process_hotels.py file (hotels = Hotel.objects.all())
+You can see the data through both django admin and pgadmin. I gave the instructions how to see database through pgadmin in my scrapy project. You can see only the generated data of first 10 hotels/properties. If you want to generate data for all hotels, you have to change the one line code in the process_hotels.py file (hotels = Hotel.objects.all())
 
 ### Property Table (`hotels`)
 
@@ -161,7 +175,8 @@ Stores Generated title and description. I have to add another column in the 'hot
 
 ### Summary Table (`HotelSummery`)
 
-Ollama model generates summery based on the property/hotel information and stored it in the 'summery' column. After running the command of generating information, it will add the generated data in new rows each time for each hotel
+Ollama model generates summery based on the property/hotel information and stores the generated information in the 'summery' column. After running the command of generating information, it will add the generated data in new rows each time for each hotel.
+
 | Field | Description |
 |--------------|-----------------------------------|
 | hotels | Foreign key to hotels primary ID |
@@ -171,6 +186,7 @@ Ollama model generates summery based on the property/hotel information and store
 ![Screenshot of the HotelSummery table](./screenshots/h3.png)
 
 ### Reviews Table (`HotelReview`)
+Ollama model generates ratings and reviews based on the property/hotel information and stores the generated information in the 'ratings' and 'reviews' column. After running the command of generating information, it will add the generated data in new rows each time for each hotel.
 
 | Field       | Description                      |
 | ----------- | -------------------------------- |
@@ -191,10 +207,10 @@ docker-compose exec django_cli python manage.py test properties.tests
 
 ### To run specific test files:
 
-#### Test CLI
+#### Test Process Hotel
 
 ```
-docker-compose exec django_cli python manage.py test properties.tests.test_cli
+docker-compose exec django_cli python manage.py test properties.tests.test_process_hotels
 ```
 
 #### Test Models
